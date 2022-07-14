@@ -1,10 +1,9 @@
 export const theme = Object.freeze({
   colors: {
-    titleColor: '#f5f5f5',
-    textColorMain: '#ffffff',
+    textColorMain: '#212121',
     textColorSecond: '#173d6e',
 
-    mainBgc: ['linear-gradient(to bottom, #c9d6ff,  #e2e2e2)'],
+    mainBgc: '#fff',
     secondBgc: '#e9bebe',
 
     btnBgc: '#a16f6f',

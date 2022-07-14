@@ -1,12 +1,23 @@
 import { Component } from 'react';
-import { Container } from 'components';
+import { SearchBar } from 'components';
 import { Section } from './App.styled';
 
 export class App extends Component {
+  handleSearchChange = ({ search }) => {
+    console.log(search);
+  };
+
   render() {
+    const { handleSearchChange } = this;
+
     return (
       <Section>
-        <Container></Container>
+        <SearchBar onSubmit={handleSearchChange} />
+        {/* <ImageGallery />
+          <ImageGalleryItem />
+          <Loader />
+          <Button />
+          <Modal /> */}
       </Section>
     );
   }
