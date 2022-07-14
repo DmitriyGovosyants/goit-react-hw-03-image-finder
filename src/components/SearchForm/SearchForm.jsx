@@ -1,9 +1,14 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BsSearch } from 'react-icons/bs';
 import { Formik } from 'formik';
 import { FormikForm, Btn, Input } from './SearchForm.styled';
 
 export const SearchForm = ({ onSubmit }) => {
   const handleSubmit = (values, { resetForm }) => {
+    if (values.search.trim() === '') {
+      return toast('Please, enter the text');
+    }
     onSubmit(values);
     resetForm();
   };
