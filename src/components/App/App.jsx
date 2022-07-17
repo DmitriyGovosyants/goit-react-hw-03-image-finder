@@ -9,7 +9,7 @@ export class App extends Component {
   };
 
   handleSearchChange = ({ search }) => {
-    this.setState({ search });
+    this.setState({ search: search.trim() });
   };
 
   render() {
@@ -20,11 +20,8 @@ export class App extends Component {
       <>
         <Section>
           <SearchBar onSubmit={handleSearchChange} />
-          {this.state.images && <div>{this.state.images}</div>}
-          <ImageGallery searchQuery={search} />
-          {/* <Loader />
-          <Button />
-          <Modal /> */}
+          <ImageGallery query={search} />
+          {/* <Modal /> */}
         </Section>
         <ToastContainer autoClose={2500} />
       </>
