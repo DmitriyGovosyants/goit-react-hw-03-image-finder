@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { SearchForm } from 'components';
 import { SearchContainer } from './SearchBar.styled';
 
@@ -7,4 +8,8 @@ export const SearchBar = ({ onSubmit }) => {
       <SearchForm onSubmit={onSubmit} />
     </SearchContainer>
   );
+};
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
