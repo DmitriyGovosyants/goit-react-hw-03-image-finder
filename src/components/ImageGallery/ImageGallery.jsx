@@ -9,15 +9,20 @@ export class ImageGallery extends Component {
     images: [],
     page: 1,
     isLoading: false,
+    isVisibleLoadMore: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     const { query } = this.props;
-    const { page, images } = this.state;
+    const { page } = this.state;
     const { handlePhotosAdd } = this;
 
-    if (prevProps.query !== query && images.length > 0) {
+    if (prevProps.query !== query && page !== 1) {
       return this.setState({ images: [], page: 1 });
+    }
+
+    if (prevProps.query !== query && page === 1) {
+      this.setState({ images: [] });
     }
 
     if (prevProps.query !== query || prevState.page !== page) {
@@ -30,11 +35,16 @@ export class ImageGallery extends Component {
 
     try {
       const data = await searchByName(query, page);
-      console.log(data.data);
+
+      const perPage = data.config.params.per_page;
+      const totalPages = data.data.totalHits;
+      const isVisibleLoadMore = page < Math.ceil(totalPages / perPage);
+
       const { hits } = data.data;
 
       this.setState(prev => ({
         images: [...prev.images, ...hits],
+        isVisibleLoadMore,
       }));
     } catch {
     } finally {
@@ -47,7 +57,7 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images, isLoading } = this.state;
+    const { isLoading, isVisibleLoadMore } = this.state;
     const { handleLoadMorePhotos } = this;
 
     return (
@@ -61,7 +71,7 @@ export class ImageGallery extends Component {
             })}
         </Gallery>
         {isLoading && <Loader />}
-        {images.length > 0 && (
+        {isVisibleLoadMore && (
           <Button type="button" onClick={handleLoadMorePhotos}>
             Load more
           </Button>
