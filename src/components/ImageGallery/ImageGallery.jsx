@@ -1,12 +1,14 @@
 import { Component } from 'react';
+
 import { searchByName } from 'api/searchImgsApi';
-import { ImageGalleryItem, Button } from 'components';
+import { ImageGalleryItem, Button, Loader } from 'components';
 import { Gallery } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
   state = {
     images: [],
     page: 1,
+    isLoading: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,13 +26,20 @@ export class ImageGallery extends Component {
   }
 
   handlePhotosAdd = async (query, page) => {
-    const data = await searchByName(query, page);
-    console.log(data.data);
-    const { hits } = data.data;
+    this.setState({ isLoading: true });
 
-    this.setState(prev => ({
-      images: [...prev.images, ...hits],
-    }));
+    try {
+      const data = await searchByName(query, page);
+      console.log(data.data);
+      const { hits } = data.data;
+
+      this.setState(prev => ({
+        images: [...prev.images, ...hits],
+      }));
+    } catch {
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   handleLoadMorePhotos = () => {
@@ -38,7 +47,7 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images, isLoading } = this.state;
     const { handleLoadMorePhotos } = this;
 
     return (
@@ -51,7 +60,7 @@ export class ImageGallery extends Component {
               );
             })}
         </Gallery>
-        {/* <Loader /> */}
+        {isLoading && <Loader />}
         {images.length > 0 && (
           <Button type="button" onClick={handleLoadMorePhotos}>
             Load more
