@@ -20,20 +20,12 @@ export class App extends Component {
   };
 
   handleSearchChange = ({ search }) => {
-    this.setState({ search: search.trim() });
+    this.setState({ search: search.trim(), page: 1, images: [] });
   };
 
   componentDidUpdate(prevProps, prevState) {
     const { page, search } = this.state;
     const { handlePhotosAdd } = this;
-
-    if (prevState.search !== search && page > 1) {
-      return this.setState({ images: [], page: 1 });
-    }
-
-    if (prevState.search !== search && page === 1) {
-      this.setState({ images: [] });
-    }
 
     if (prevState.search !== search || prevState.page !== page) {
       handlePhotosAdd(search, page);
