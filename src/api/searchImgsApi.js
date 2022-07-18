@@ -9,5 +9,5 @@ axios.defaults.params = {
 };
 
 export const searchByName = async (searchQuery, page) => {
-  return await axios(`?q=${searchQuery}&page=${page}&key=${API_KEY}`);
+  return await axios.get(`?q=${searchQuery}&page=${page}&key=${API_KEY}`);
 }
